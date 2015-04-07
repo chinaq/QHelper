@@ -1,0 +1,5 @@
+D:\users\terryq\documents\visual studio 2013\Projects\QHelper\QHelper\bin\Debug\QHelper.dll
+D:\users\terryq\documents\visual studio 2013\Projects\QHelper\QHelper\bin\Debug\QHelper.pdb
+D:\users\terryq\documents\visual studio 2013\Projects\QHelper\QHelper\obj\Debug\QHelper.csprojResolveAssemblyReference.cache
+D:\users\terryq\documents\visual studio 2013\Projects\QHelper\QHelper\obj\Debug\QHelper.dll
+D:\users\terryq\documents\visual studio 2013\Projects\QHelper\QHelper\obj\Debug\QHelper.pdb
