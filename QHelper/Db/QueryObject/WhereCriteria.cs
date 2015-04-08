@@ -34,7 +34,7 @@ namespace QHelper.Db.QueryObject
 
         private void SetClause()
         {
-            clause.sqlStr = sqlStr;
+            clause.SqlStr = sqlStr;
             clause.paras.Add(value);
         }
 

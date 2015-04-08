@@ -13,8 +13,16 @@ namespace QHelper.Db.QueryObject
         }
 
 
-        public string sqlStr { get; set; }
+        public string SqlStr { get; set; }
 
-        public List<object> paras { get; set; }
+        public object[] Paras
+        {
+            get
+            {
+                return paras.ToArray();
+            }
+        }
+
+        internal List<object> paras { get; set; }
     }
 }

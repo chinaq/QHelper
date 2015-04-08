@@ -47,6 +47,7 @@
     <Compile Include="Db\QueryObject\WhereQuery.cs" />
     <Compile Include="Db\QueryObject\WhereQueryCom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Property\PropertyHelper.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

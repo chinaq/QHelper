@@ -48,7 +48,7 @@ namespace QHelper.Db.QueryObject
 
         private void SetHeadTailToClause()
         {
-            clause.sqlStr = head + clause.sqlStr + tail;
+            clause.SqlStr = head + clause.SqlStr + tail;
         }
 
 
@@ -56,7 +56,7 @@ namespace QHelper.Db.QueryObject
         private void SetClause(WhereQuery query)
         {
             WhereClause clauseFromSub = query.GeneralClauseBy(isFirst, paraNo);
-            clause.sqlStr = clause.sqlStr + clauseFromSub.sqlStr;
+            clause.SqlStr = clause.SqlStr + clauseFromSub.SqlStr;
             clause.paras.AddRange(clauseFromSub.paras);
             SetParaNo(clauseFromSub.paras.Count);
             SetIsFirstToFalse();
@@ -87,6 +87,14 @@ namespace QHelper.Db.QueryObject
                 head = GetAndOr() + "(";
                 tail += ")";
             }
+        }
+
+
+
+
+        public override ICollection<WhereQuery> GetSubQueries()
+        {
+            return queries;
         }
 
     }

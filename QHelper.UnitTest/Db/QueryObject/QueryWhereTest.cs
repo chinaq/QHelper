@@ -81,8 +81,8 @@ namespace QHelper.UnitTest.Db.QueryObject
             WhereClause clause = query.GeneralClause();
 
             //Assert
-            Assert.AreEqual("Name = @0 AND Point = @1 ", clause.sqlStr);
-            Assert.AreEqual(2, clause.paras.Count);
+            Assert.AreEqual("Name = @0 AND Point = @1 ", clause.SqlStr);
+            Assert.AreEqual(2, clause.Paras.ToList().Count);
         }
 
 
@@ -113,8 +113,8 @@ namespace QHelper.UnitTest.Db.QueryObject
             WhereClause clause = query_1.GeneralClause();
 
             //Assert
-            Assert.AreEqual("Name = @0 AND Point = @1 AND (Name = @2 AND Point = @3 )", clause.sqlStr);
-            Assert.AreEqual(4, clause.paras.Count);
+            Assert.AreEqual("Name = @0 AND Point = @1 AND (Name = @2 AND Point = @3 )", clause.SqlStr);
+            Assert.AreEqual(4, clause.Paras.ToList().Count);
         }
 
 
@@ -141,8 +141,8 @@ namespace QHelper.UnitTest.Db.QueryObject
             WhereClause clause = query_1.GeneralClause();
 
             //Assert
-            Assert.AreEqual("Name = @0 AND Point = @1 ", clause.sqlStr);
-            Assert.AreEqual(2, clause.paras.Count);
+            Assert.AreEqual("Name = @0 AND Point = @1 ", clause.SqlStr);
+            Assert.AreEqual(2, clause.Paras.ToList().Count);
         }
 
 
@@ -168,8 +168,8 @@ namespace QHelper.UnitTest.Db.QueryObject
             WhereClause clause = query_1.GeneralClause();
 
             //Assert
-            Assert.AreEqual("Name = @0 AND Point = @1 ", clause.sqlStr);
-            Assert.AreEqual(2, clause.paras.Count);
+            Assert.AreEqual("Name = @0 AND Point = @1 ", clause.SqlStr);
+            Assert.AreEqual(2, clause.Paras.ToList().Count);
         }
 
         #endregion
@@ -213,7 +213,7 @@ namespace QHelper.UnitTest.Db.QueryObject
 
             //Action
             WhereClause clause = query.GeneralClause();
-            var videosByQuery = context.Videos.Where(clause.sqlStr, clause.paras.ToArray());
+            var videosByQuery = context.Videos.Where(clause.SqlStr, clause.Paras);
             List<Video> videosGetted = videosByQuery.ToList();
 
 
@@ -269,7 +269,7 @@ namespace QHelper.UnitTest.Db.QueryObject
 
             //Action
             WhereClause clause = query_1.GeneralClause();
-            var videosByQuery = context.Videos.Where(clause.sqlStr, clause.paras.ToArray());
+            var videosByQuery = context.Videos.Where(clause.SqlStr, clause.Paras);
             List<Video> videosGetted = videosByQuery.ToList();
 
 
@@ -299,8 +299,8 @@ namespace QHelper.UnitTest.Db.QueryObject
             WhereClause clause = query.GeneralClause();
 
             //Assert
-            Assert.AreEqual("Name = @0 OR Point = @1 ", clause.sqlStr);
-            Assert.AreEqual(2, clause.paras.Count);
+            Assert.AreEqual("Name = @0 OR Point = @1 ", clause.SqlStr);
+            Assert.AreEqual(2, clause.Paras.ToList().Count);
         }
 
 
@@ -342,11 +342,11 @@ namespace QHelper.UnitTest.Db.QueryObject
             //Action
             WhereClause clause = query.GeneralClause();
             EFDbContext contextToGet = new EFDbContext();
-            var videosByQuery = contextToGet.Videos.Where(clause.sqlStr, clause.paras.ToArray());
+            var videosByQuery = contextToGet.Videos.Where(clause.SqlStr, clause.Paras);
             List<Video> videosGetted = videosByQuery.ToList();
 
             //Assert
-            Assert.AreEqual("Name = @0 OR Point = @1 ", clause.sqlStr);
+            Assert.AreEqual("Name = @0 OR Point = @1 ", clause.SqlStr);
             Assert.AreEqual(2, videosGetted.Count);
             Assert.AreEqual("12300", videosGetted[0].Id);
             Assert.AreEqual("12301", videosGetted[1].Id);
@@ -358,7 +358,7 @@ namespace QHelper.UnitTest.Db.QueryObject
 
 
 
-        #region 测试Like
+        #region 测试Contain
 
         /// <summary>
         /// 测试生成Contain语句
@@ -375,7 +375,7 @@ namespace QHelper.UnitTest.Db.QueryObject
             WhereClause clause = query.GeneralClause();
 
             //Assert
-            Assert.AreEqual("Name.Contains(@0) ", clause.sqlStr);
+            Assert.AreEqual("Name.Contains(@0) ", clause.SqlStr);
         }
 
 
@@ -392,7 +392,7 @@ namespace QHelper.UnitTest.Db.QueryObject
             {
                 new Video(){ 
                     Id = "12300",
-                    Name = "骇客",
+                    Name = "骇客们",
                     Point = 5
                 },
                 new Video(){
@@ -412,19 +412,21 @@ namespace QHelper.UnitTest.Db.QueryObject
 
             //Arrange2      //Set query
             WhereQuery query = new WhereQueryCom(ConnectType.Or);
-            WhereQuery cri1 = new WhereCriteria(ConnectType.Or, "Name", CriType.Contains, "骇");
+            WhereQuery cri1 = new WhereCriteria(ConnectType.Or, "Name", CriType.Contains, "骇客");
+            WhereQuery cri2 = new WhereCriteria(ConnectType.And, "Id", CriType.Contains, "123");
 
             query.Add(cri1);
+            query.Add(cri2);
 
 
             //Action
             WhereClause clause = query.GeneralClause();
             EFDbContext contextToGet = new EFDbContext();
-            var videosByQuery = contextToGet.Videos.Where(clause.sqlStr, clause.paras.ToArray());
+            var videosByQuery = contextToGet.Videos.Where(clause.SqlStr, clause.Paras);
             List<Video> videosGetted = videosByQuery.ToList();
 
             //Assert
-            Assert.AreEqual("Name.Contains(@0) ", clause.sqlStr);
+            Assert.AreEqual("Name.Contains(@0) AND Id.Contains(@1) ", clause.SqlStr);
             Assert.AreEqual(1, videosGetted.Count);
             Assert.AreEqual("12300", videosGetted[0].Id);
         }

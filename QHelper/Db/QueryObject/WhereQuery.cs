@@ -65,5 +65,10 @@ namespace QHelper.Db.QueryObject
             this.paraNo = paraNo;            
         }
 
+
+        public virtual ICollection<WhereQuery> GetSubQueries() {
+            throw new NotImplementedException();
+        }
+
     }
 }
